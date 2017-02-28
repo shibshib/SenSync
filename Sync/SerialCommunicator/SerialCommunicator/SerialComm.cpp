@@ -19,7 +19,7 @@ SerialComm::SerialComm(LPCWSTR portName)
 		// If not successful, error
 		if (GetLastError() == ERROR_FILE_NOT_FOUND) {
 			// Print error
-			std::cout << "ERROR: HANDLE WAS NOT ATTACHED. REASON: " << portName << " WAS NOT AVAILABLE." << std::endl;
+			std::cout << "ERROR: COM HANDLE WAS NOT ATTACHED. REASON: " << portName << " WAS NOT AVAILABLE." << std::endl;
 		}
 		else {
 			std::cout << "UNKNOWN ERROR" << std::endl;

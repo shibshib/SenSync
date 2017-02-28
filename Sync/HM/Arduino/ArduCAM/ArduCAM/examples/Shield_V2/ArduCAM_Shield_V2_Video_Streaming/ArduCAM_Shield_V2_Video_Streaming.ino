@@ -37,7 +37,7 @@ const char bmp_header[BMPIMAGEOFFSET] PROGMEM =
 #if defined(ESP8266)
  const int SPI_CS = 16;
 #else 
- const int SPI_CS =10;
+ const int SPI_CS =9;
 #endif
 bool is_header = false;
 int mode = 0;

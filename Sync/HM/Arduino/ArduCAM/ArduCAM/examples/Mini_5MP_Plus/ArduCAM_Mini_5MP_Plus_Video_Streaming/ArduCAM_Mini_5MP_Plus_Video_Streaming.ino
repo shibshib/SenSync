@@ -22,7 +22,7 @@
 #include <SPI.h>
 #include "memorysaver.h"
 //This demo can only work on OV5640_MINI_5MP_PLUS or OV5642_MINI_5MP_PLUS platform.
-#if !(defined (OV5640_MINI_5MP_PLUS)||defined (OV5642_MINI_5MP_PLUS))
+#if !(defined OV5640_MINI_5MP_PLUS || defined OV5642_MINI_5MP_PLUS)
 #error Please select the hardware platform and camera module in the ../libraries/ArduCAM/memorysaver.h file
 #endif
 #define BMPIMAGEOFFSET 66

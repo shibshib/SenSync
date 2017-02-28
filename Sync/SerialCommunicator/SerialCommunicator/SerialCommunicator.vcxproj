@@ -149,7 +149,6 @@
     <ClInclude Include="SerialComm.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MSP430AccelerometerSerialListener.cpp" />
     <ClCompile Include="MSP430KeyboardSerialListener.cpp" />
     <ClCompile Include="SerialComm.cpp" />
   </ItemGroup>

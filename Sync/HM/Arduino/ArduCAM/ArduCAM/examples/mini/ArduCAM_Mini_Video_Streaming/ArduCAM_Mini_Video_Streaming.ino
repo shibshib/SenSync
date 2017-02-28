@@ -1,3 +1,4 @@
+
 // ArduCAM Mini demo (C)2017 Lee
 // Web: http://www.ArduCAM.com
 // This program is a demo of how to use most of the functions
@@ -17,6 +18,7 @@
 // 8. If receive 0x31 ,set camera to BMP  output mode.
 // This program requires the ArduCAM V4.0.0 (or later) library and ArduCAM_Mini_5MP_Plus
 // and use Arduino IDE 1.6.8 compiler or above
+
 #include <Wire.h>
 #include <ArduCAM.h>
 #include <SPI.h>

@@ -21,14 +21,15 @@ std::string COM9String = "COM9";
 std::string COM6String = "COM6";
 std::string crystal_speed = "4MHz";
 std::string dco_speed = "-2MHz";
+std::string dataPath = "C:\\Users\\Ala\\Documents\\GitHub\\SenSync\\Sync\\HH\\Data\\";
 
 void separateFileOutput(std::string portName) {
 	std::ifstream inputFile("Human-Human_Data/raw_output_" + portName + ".csv");
 	std::ofstream cfile, dfile;
 	std::string filenum = "3";
 
-	cfile.open("C:\\Users\\Ala\\Desktop\\Dropbox\\PhD\\Sync\\KeySync\\Python\\Data\\Crystal_accel_" + portName + "_" + crystal_speed + "_" + filenum + ".csv");
-	dfile.open("C:\\Users\\Ala\\Desktop\\Dropbox\\PhD\\Sync\\KeySync\\Python\\Data\\DCO_accel_" + portName + "_" + dco_speed + "_" + filenum + ".csv");
+	cfile.open(dataPath + "Crystal_accel_" + portName + "_" + crystal_speed + "_" + filenum + ".csv");
+	dfile.open(dataPath + "DCO_accel_" + portName + "_" + dco_speed + "_" + filenum + ".csv");
 	std::string line;
 
 	while (std::getline(inputFile, line)) {

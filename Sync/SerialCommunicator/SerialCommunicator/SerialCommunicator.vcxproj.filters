@@ -23,7 +23,7 @@
     <ClCompile Include="SerialComm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MSP430SerialListener.cpp">
+    <ClCompile Include="MSP430KeyboardSerialListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
