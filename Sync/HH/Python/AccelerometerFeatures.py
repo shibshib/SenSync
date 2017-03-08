@@ -126,9 +126,10 @@ class AccelerometerFeatures:
             training_data = df.as_matrix();
             X, y, w = self.extract_features(training_data, window_size, window_overlap)
             #X_full = np.concatenate((X_full, X), axis=0);
-            X_full.append(X);
-            y_full.append(y);
-            w_full.append(w);
+            if(X.shape[0] > 0 and y.shape[0] > 0 and w.shape[0] > 0):
+                X_full.append(X);
+                y_full.append(y);
+                w_full.append(w);
 
         # Convert list of np arrays to single giant np array
         X_full = np.concatenate(X_full, axis=0);

@@ -22,7 +22,7 @@ std::string KEYBOARD_COM_string = "COM12";
 std::string ACCEL_COM_string = "COM6";
 std::string crystal_speed = "4MHz";
 std::string dco_speed = "2MHz";
-std::string filenum = "3";
+std::string filenum = "800";
 std::string dataPath = "C:\\Users\\Ala\\Documents\\GitHub\\SenSync\\Sync\\HM\\Python\\Data\\";
 
 void separateAccelFileOutput(std::string portName) {
@@ -85,7 +85,7 @@ BOOL WINAPI ConsoleHandler(DWORD CEvent) {
 	case CTRL_CLOSE_EVENT:
 		// Write contents of raw_output to crystal and DCO files
 		separateAccelFileOutput(ACCEL_COM_string);
-		keyboardFileOutput(KEYBOARD_COM_string);
+	//	keyboardFileOutput(KEYBOARD_COM_string);
 		break;
 	default:
 		return FALSE;
@@ -124,9 +124,6 @@ void collectData(LPWSTR port, std::string portName) {
 			incomingData[readResult] = 0;
 
 			while (strcmp(incomingData, "\\n") != 0) {
-				readResult = SC->ReadData(incomingData, dataLength);
-				incomingData[readResult] = 0;
-
 				if (strcmp(incomingData, "") != 0) {
 					// get timestamp
 					std::time_t result = std::time(nullptr);
@@ -138,7 +135,7 @@ void collectData(LPWSTR port, std::string portName) {
 					std::istringstream f(incomingData);
 
 					while (std::getline(f, line)) {
-					//	std::cout << port << "," << ms.count() << "," << line << std::endl;
+						std::cout << ms.count() << "," << line << std::endl;
 						if (portName == KEYBOARD_COM_string) {
 							outputFile << ms.count() << "," << line;
 						}
@@ -148,6 +145,8 @@ void collectData(LPWSTR port, std::string portName) {
 
 					}
 				}
+				readResult = SC->ReadData(incomingData, dataLength);
+				incomingData[readResult] = 0;
 			}
 		}
 		outputFile.close();
@@ -163,12 +162,12 @@ int main() {
 		std::cout << "Handler Installed!\n";
 	}
 
-	std::thread KEYBOARD_thread(collectData, KEYBOARD_COM, KEYBOARD_COM_string);
+//	std::thread KEYBOARD_thread(collectData, KEYBOARD_COM, KEYBOARD_COM_string);
 	std::thread ACCEL_thread(collectData, ACCEL_COM, ACCEL_COM_string);
 
 
 	// synchronize threads:
-	KEYBOARD_thread.join();                // pauses until first finishes
+//	KEYBOARD_thread.join();                // pauses until first finishes
 	ACCEL_thread.join();               // pauses until second finishes
 	
 //	separateAccelFileOutput(ACCEL_COM_string);

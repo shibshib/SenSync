@@ -21,54 +21,54 @@ class EventAnalyzer:
         return sInd, eInd;
 
     def find_events(self, node, window_size, window_overlap, classifier, ax=None):
-        X2, y2, w2 = ae.extract_features(node, window_size, window_overlap);
+        if(node.size > 0):
+                    X2, y2, w2 = ae.extract_features(node, window_size, window_overlap);
+            # Compute time and magnitude
+            ntime = node[:,0];
+            ntime = ntime - ntime[0];
+            ntime = ntime / 1000;                # Convert to milliseconds for the sake of display
 
-        # Compute time and magnitude
-        ntime = node[:,0];
-        ntime = ntime - ntime[0];
-        ntime = ntime / 1000;                # Convert to milliseconds for the sake of display
+            node_mag = np.square(node[:,1]) + np.square(node[:,2]) + np.square(node[:,3]);
+            node_mag = np.sqrt(node_mag);
 
-        node_mag = np.square(node[:,1]) + np.square(node[:,2]) + np.square(node[:,3]);
-        node_mag = np.sqrt(node_mag);
+            # Variable to hold the start and end indices of events in
+            # the signal
+            events = [];
+            single_event_start = 0;
 
-        # Variable to hold the start and end indices of events in
-        # the signal
-        events = [];
-        single_event_start = 0;
+            # Use classifier to find events in DCO
+            # all handshake event timings are recorded
+            # inside events variable. Length of the
+            # active areas array should be ~ 2 x # of events
+            for i in range(0, len(X2)):
+                feat = X2[i];
+                activity = classifier.predict([feat]);
+                if (activity[0] == 1):
+                    # Determine the location of this window index-wise in the data
+                    start, end = self.find_indices(node[:,0], w2[i][0], w2[i][1]);
 
-        # Use classifier to find events in DCO
-        # all handshake event timings are recorded
-        # inside events variable. Length of the
-        # active areas array should be ~ 2 x # of events
-        for i in range(0, len(X2)):
-            feat = X2[i];
-            activity = classifier.predict([feat]);
-            if (activity[0] == 1):
-                # Determine the location of this window index-wise in the data
-                start, end = self.find_indices(node[:,0], w2[i][0], w2[i][1]);
+                    # we haven't started recording the event yet
+                    if (single_event_start == 0):
+                        # begin recording
+                        single_event_start = start;
 
-                # we haven't started recording the event yet
-                if (single_event_start == 0):
-                    # begin recording
-                    single_event_start = start;
+                    if(ax != None):
+                        e, = ax.plot(ntime[start:end], node_mag[start:end], "r", label="Event");
+                else:
+                    start, end = self.find_indices(node[:,0], w2[i][0], w2[i][1]);
 
-                if(ax != None):
-                    e, = ax.plot(ntime[start:end], node_mag[start:end], "r", label="Event");
-            else:
-                start, end = self.find_indices(node[:,0], w2[i][0], w2[i][1]);
+                    # We are recording an event
+                    if (single_event_start != 0):
+                        # save recording
+                        events.append([single_event_start,end]);
+                        # restart for the next recording
+                        single_event_start = 0;
 
-                # We are recording an event
-                if (single_event_start != 0):
-                    # save recording
-                    events.append([single_event_start,end]);
-                    # restart for the next recording
-                    single_event_start = 0;
+                    if(ax != None):
+                        ne, = ax.plot(ntime[start:end], node_mag[start:end], "b", label="Non-event");
+                        ax.set_xlabel('Time (Millis)');
 
-                if(ax != None):
-                    ne, = ax.plot(ntime[start:end], node_mag[start:end], "b", label="Non-event");
-                    ax.set_xlabel('Time (Millis)');
-
-        return events;
+            return events;
 
     def retrieve_all_events(self, src, window_size, window_overlap, classifier):
         path = 'Data';
