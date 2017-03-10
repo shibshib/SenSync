@@ -34,11 +34,11 @@
 
 #define   FRAMES_NUM    0x07
 #define   rate     0x0a
-#define SD_CS 9
+#define SD_CS 4
 #define KEY 2
 #define AVIOFFSET 240
 // set pin 7 as the slave select for the digital pot:
-const int CS = 7;
+const int CS = 6;
 bool is_header = false;
 uint32_t total_time = 0;
 unsigned long movi_size = 0;

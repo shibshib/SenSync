@@ -37,7 +37,7 @@ const char bmp_header[BMPIMAGEOFFSET] PROGMEM =
   0x00, 0x00
 };
 // set pin 7 as the slave select for the digital pot:
-const int CS = 7;
+const int CS =10;
 bool is_header = false;
 int mode = 0;
 uint8_t start_capture = 0;
@@ -63,6 +63,9 @@ Serial.println(F("ACK CMD ArduCAM Start!"));
 pinMode(CS, OUTPUT);
 // initialize SPI:
 SPI.begin();
+
+// Try to change clock?
+SPI.setClockDivider(1);
 while(1){
   //Check if the ArduCAM SPI bus is OK
   myCAM.write_reg(ARDUCHIP_TEST1, 0x55);
