@@ -2,7 +2,7 @@
 #!/usr/bin/env python
 
 '''
-This module contains some common routines used by other samples.
+This module contains some common routines used by other python files
 '''
 
 # Python 2/3 compatibility

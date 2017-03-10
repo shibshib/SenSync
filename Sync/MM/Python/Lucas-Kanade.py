@@ -2,17 +2,14 @@
 # Python 2/3 compatibility
 from __future__ import print_function
 '''
-Lucas-Kanade tracker
-====================
 
-Lucas-Kanade sparse optical flow demo. Uses goodFeaturesToTrack
-for track initialization and back-tracking for match verification
-between frames.
+Author: Ala Shaabana
 
 Usage
 -----
-lk_track.py [<video_source>]
+Lucas-Kanade.py [<video_source>]
 
+Plots optical flow overlayed on top of video and then plots using matplotlib.
 
 Keys
 ----

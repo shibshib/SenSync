@@ -1,23 +1,13 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Mar 10 15:49:15 2017
-
-@author: Ala
-"""
 
 #!/usr/bin/env python
 
 # Python 2/3 compatibility
 from __future__ import print_function
 '''
-Video capture sample.
+Video capture
 
-Sample shows how VideoCapture class can be used to acquire video
-frames from a camera of a movie file. Also the sample provides
-an example of procedural video generation by an object, mimicking
-the VideoCapture interface (see Chess class).
-
-'create_capture' is a convinience function for capture creation,
+'create_capture' is a convenience function for capture creation,
 falling back to procedural video in case of error.
 
 Usage:
