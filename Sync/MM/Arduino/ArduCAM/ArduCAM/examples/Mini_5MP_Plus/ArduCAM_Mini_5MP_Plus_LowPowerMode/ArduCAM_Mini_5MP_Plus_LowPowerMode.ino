@@ -21,7 +21,7 @@
 #error Please select the hardware platform and camera module in the ../libraries/ArduCAM/memorysaver.h file
 #endif
 // set pin 7 as the slave select for the digital pot:
-const int CS = 7;
+const int CS = 9;
 static uint8_t resolution = 0;
 #if defined (OV5640_MINI_5MP_PLUS)
   ArduCAM myCAM(OV5640, CS);
