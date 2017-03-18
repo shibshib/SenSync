@@ -1,4 +1,4 @@
-/*
+/**************************************************************************************************
  File: SerialPortSample.c
  Abstract: Command line tool that demonstrates how to use IOKitLib to find all serial ports on OS X. Also shows how to open, write to, read from, and close a serial port.
  Version: 1.0
@@ -6,7 +6,7 @@
  Author: Ala Shaabana
  WiSeR Lab 2017
  
- */
+ ***************************************************************************************************/
 
 #include "SerialComm.h"
 
@@ -195,11 +195,10 @@ static int openSerialPort(const char *bsdPath)
     
     // Success
     connected = true;
-    
     return fileDescriptor;
 }
 
-
+// Function to read from serial port given a char array and the file descriptor
 static Boolean readSerial(char *buffer, int fileDescriptor){
     char		*bufPtr;		// Current char in buffer
     ssize_t		numBytes;		// Number of bytes read or written
@@ -225,8 +224,12 @@ static Boolean readSerial(char *buffer, int fileDescriptor){
     // NUL terminate the string and see if we got an OK response
     *bufPtr = '\0';
     
-    // Success
-    return true;
+    if(strcmp(buffer, "\\n") != 0 && strcmp(buffer, "") != 0){
+        // Success. Real data!
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // Given the file descriptor for a serial device, close that device.
@@ -234,7 +237,7 @@ void closeSerialPort(int fileDescriptor)
 {
     // Block until all written output has been sent from the device.
     // Note that this call is simply passed on to the serial device driver.
-    // See tcsendbreak(3) <x-man-page://3/tcsendbreak> for details.
+    // See tcsendbreak(3) <x-man-page://3/tcsendbreak> for Deets!!
     if (tcdrain(fileDescriptor) == -1) {
         printf("Error waiting for drain - %s(%d).\n",
                strerror(errno), errno);
@@ -249,92 +252,4 @@ void closeSerialPort(int fileDescriptor)
     }
     
     close(fileDescriptor);
-}
-
-/* Function to collect data from
- * COM port specified in SerialComm.h
- */
-static void collectData(int fileDescriptor){
-    char        incomingData[256];
-    Boolean     readResult = false;
-    
-    // Timestamp in microseconds since EPOCH (00:00:00 Jan 1, 1970)
-    using time_stamp = std::chrono::time_point<std::chrono::system_clock,
-    std::chrono::microseconds>;
-
-    
-    printf("Collecting from %s\n", MATCH_PATH);
-    
-    while(connected){
-        readResult = readSerial(incomingData, fileDescriptor);
-        
-            while(strcmp(incomingData, "\\n") != 0) {
-                
-                if(strcmp(incomingData, "") != 0) {
-                    // get timestamp in microseconds
-                    // This will only last approx 2^32/10^6 = ~4295 seconds
-                    // (roughly 71 minutes) in a 32 bit system
-                 //   microseconds ms = duration_cast< microseconds >(
-                 //                       system_clock::now().time_since_epoch());
-                    
-                  //  std::cout << incomingData << std::endl;
-                    
-                    // data comes in chunks, reduce chunks to lines and apply timetamp.
-                    std::string line;
-                    std::istringstream f(incomingData);
-                    
-                    while (std::getline(f, line)) {
-                        std::size_t newline = line.find("\n");
-                        if(newline)
-                            std::cout << line.substr(0, newline) << std::endl << line.substr(newline);
-                     //   else
-                      //      std::cout << line << std::endl;
-                       // outputFile << ms.count() << "," << line << std::endl;
-                    }
-                }
-                readResult = readSerial(incomingData, fileDescriptor);
-            }
-    }
-}
-
-int main(int argc, const char * argv[])
-{
-    int             fileDescriptor;
-    kern_return_t	kernResult;
-    io_iterator_t	serialPortIterator;
-    char            bsdPath[MAXPATHLEN];
-    
-    kernResult = findModems(&serialPortIterator);
-    if (KERN_SUCCESS != kernResult) {
-        printf("No modems were found.\n");
-    }
-    
-    kernResult = getModemPath(serialPortIterator, bsdPath, sizeof(bsdPath));
-    if (KERN_SUCCESS != kernResult) {
-        printf("Could not get path for modem.\n");
-    }
-    
-    IOObjectRelease(serialPortIterator);	// Release the iterator.
-    
-    // Now open the modem port we found, initialize the modem, then close it
-    if (!bsdPath[0]) {
-        printf("No modem port found.\n");
-        return EX_UNAVAILABLE;
-    }
-    printf("Found: %s\n", bsdPath);
-    
-    fileDescriptor = openSerialPort(bsdPath);
-    if (-1 == fileDescriptor) {
-        return EX_IOERR;
-    } else {
-        printf("Serial Port opened successfully\n");
-    }
-    
-    collectData(fileDescriptor);
-    
-    
-    closeSerialPort(fileDescriptor);
-    printf("Modem port closed.\n");
-    
-    return EX_OK;
 }
