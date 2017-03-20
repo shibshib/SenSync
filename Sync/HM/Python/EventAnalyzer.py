@@ -22,7 +22,7 @@ class EventAnalyzer:
 
     def find_events(self, node, window_size, window_overlap, classifier, ax=None):
         X2, y2, w2 = ae.extract_features(node, window_size, window_overlap);
-
+        
         # Compute time and magnitude
         ntime = node[:,0];
         ntime = ntime - ntime[0];

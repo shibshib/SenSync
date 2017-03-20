@@ -9,8 +9,23 @@
 #########################################################################
 import numpy as np
 import pandas as pd
+from scipy import signal
 import glob
 
+# Quick define a high pass filter
+def butter_highpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = signal.butter(order, normal_cutoff, btype='high', analog=False)
+    return b, a
+
+def butter_highpass_filter(data, cutoff, fs, order=5):
+    b, a = butter_highpass(cutoff, fs, order=order)
+    y = signal.filtfilt(b, a, data, padlen=0)
+    return y
+
+freq = 50;
+cutoff=10;
 
 class AccelerometerFeatures:
     def mav(self, data, dim):
@@ -86,7 +101,9 @@ class AccelerometerFeatures:
             # Compute window magnitude, for labeling the window
             mag = np.square(window[:,1]) + np.square(window[:,2]) + np.square(window[:,3]);
             mag = np.sqrt(mag);
-            label = self.generate_naive_label(mag, 8.0);
+            mag = butter_highpass_filter(mag, cutoff, freq);
+
+            label = self.generate_naive_label(mag, 0.12);
             labels.append(label);
             features.append([mav_x, mav_y, mav_z, WL_x, WL_y, WL_z]);
 
@@ -97,11 +114,11 @@ class AccelerometerFeatures:
         return features, labels, windows;
     # Function to generate labels.
     # Function is naive in that it performs
-    # basic  peak counting for onset and offset labeling
-    def generate_naive_label(self, data, thresh):
+    # simple peak counting for onset and offset labeling
+    def generate_naive_label(self, data, thresh1):
         labels = [];
         for i in range(0, len(data)):
-            if(data[i] > thresh):
+            if(data[i] >= thresh1):
                 return 1
         return 0;
 
@@ -125,9 +142,11 @@ class AccelerometerFeatures:
             df = pd.read_csv(file_,names=columns)
             training_data = df.as_matrix();
             X, y, w = self.extract_features(training_data, window_size, window_overlap)
-            X_full.append(X);
-            y_full.append(y);
-            w_full.append(w);
+            #X_full = np.concatenate((X_full, X), axis=0);
+            if(X.shape[0] > 0 and y.shape[0] > 0 and w.shape[0] > 0):
+                X_full.append(X);
+                y_full.append(y);
+                w_full.append(w);
 
         # Convert list of np arrays to single giant np array
         X_full = np.concatenate(X_full, axis=0);

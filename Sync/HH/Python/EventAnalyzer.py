@@ -21,8 +21,10 @@ class EventAnalyzer:
         return sInd, eInd;
 
     def find_events(self, node, window_size, window_overlap, classifier, ax=None):
-        if(node.size > 0):
-                    X2, y2, w2 = ae.extract_features(node, window_size, window_overlap);
+        if(node.size == 0):
+            return 0;
+        else:
+            X2, y2, w2 = ae.extract_features(node, window_size, window_overlap);
             # Compute time and magnitude
             ntime = node[:,0];
             ntime = ntime - ntime[0];

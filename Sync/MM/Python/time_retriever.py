@@ -11,7 +11,7 @@ import glob
 import os
 
 # Move to new directory
-path = "Data/temp/1";
+path = "Data/temp/3";
 os.chdir(path);
 
 # Get all files in 1 directory
