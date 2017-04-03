@@ -1,15 +1,15 @@
-﻿Build started 3/3/2017 3:22:36 PM.
+﻿Build started 3/29/2017 1:48:41 PM.
      1>Project "C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\SerialCommunicator\SerialCommunicator.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt MSP430KeyboardSerialListener.cpp
-         MSP430KeyboardSerialListener.cpp
-     1>c:\users\ala\documents\github\sensync\sync\serialcommunicator\serialcommunicator\msp430keyboardseriallistener.cpp(93): warning C4715: 'ConsoleHandler': not all control paths return a value
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt MSP430AccelerometerSerialListener.cpp
+         MSP430AccelerometerSerialListener.cpp
+     1>c:\users\ala\documents\github\sensync\sync\serialcommunicator\serialcommunicator\msp430accelerometerseriallistener.cpp(77): warning C4715: 'ConsoleHandler': not all control paths return a value
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.lib" /MACHINE:X86 Debug\MSP430KeyboardSerialListener.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.lib" /MACHINE:X86 Debug\MSP430AccelerometerSerialListener.obj
          Debug\SerialComm.obj
          SerialCommunicator.vcxproj -> C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\Debug\SerialCommunicator.exe
      1>Done Building Project "C:\Users\Ala\Documents\GitHub\SenSync\Sync\SerialCommunicator\SerialCommunicator\SerialCommunicator.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:06.20
+Time Elapsed 00:00:02.10
