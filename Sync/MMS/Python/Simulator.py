@@ -6,6 +6,12 @@ import networkx as nx
 from Node import Node
 import math
 
+# Time conversion unit, C should be expressed in same units as cur_time
+# in this case, milliseconds.
+# C = time unit in milliseconds (e.g. day in milliseconds, hour in milliseconds, etc.)
+# For now, year in milliseconds
+C = 3.6e+10;
+
 def find_neighbors(G, nodes, node):
     neighbors = G.neighbors(node);
     neighbor_nodes = [];
@@ -48,16 +54,30 @@ def sync(DG, node_index, nodes, node, ref_node):
 
     return v_i, u_i
 
-if __name__ == '__main__':
+def weigh_edges(DG, nodes, start_time):
+    edges = DG.edges();
     curtime = lambda: int(round(time.time() * 1000));
-    # 40 nodes, each running with their own clock
-    # Each node is skewed and offset from the original clock
-    # by a random amount
-    N = 10;
+    # First, remove all edges
+    for e in edges:
+        DG.remove_edge(e[0],e[1]);
+
+    # Next, find all weights for edges and re-add them
+    for n in range(0, len(nodes)-1):
+        weight = (curtime() - nodes[n].sync_time) / C / nodes[n].stderr;
+        DG.add_edge(edges[n][0], edges[n][1], weight=weight);
+        print("Added edge with weight: ", weight);
+
+    return DG;
+if __name__ == '__main__':
+    start_time = lambda: int(round(time.time() * 1000));
+    # 10 nodes, each running with their own clock
+    # Each node is skewed and offset from the original computer clock
+    # by a random skew and offset
+    N = 6;
 
     nodes = [];
     count = 0;
-    print("Current time: ", curtime());
+    print("Start time: ", start_time());
     for i in range(0, N):
         n = Node();
         print("Node", count+1, " created, Skew = ", n.skew, " offset = ", n.offset)
@@ -70,8 +90,11 @@ if __name__ == '__main__':
     DG=nx.gnc_graph(N);
     nx.draw(DG);
 
-    vi, ui = sync(DG, 1, nodes, nodes[0], nodes[1]);
-    print(vi)
-    print(ui)
+    # Assign weights to edges
+    DG = weigh_edges(DG, nodes, start_time());
+
+#    vi, ui = sync(DG, 1, nodes, nodes[0], nodes[1]);
+#    print(vi)
+#    print(ui)
 
     plt.show();
