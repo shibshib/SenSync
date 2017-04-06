@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # 10 nodes, each running with their own clock
     # Each node is skewed and offset from the original computer clock
     # by a random skew and offset
-    N = 6;
+    N = 10;
 
     nodes = [];
     count = 0;
