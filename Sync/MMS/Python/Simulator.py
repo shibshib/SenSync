@@ -10,7 +10,7 @@ import math
 # in this case, milliseconds.
 # C = time unit in milliseconds (e.g. day in milliseconds, hour in milliseconds, etc.)
 # For now, year in milliseconds
-C = 3.6e+10;
+C = 3.6e+12;
 
 def find_neighbors(G, nodes, node):
     neighbors = G.neighbors(node);
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     # 10 nodes, each running with their own clock
     # Each node is skewed and offset from the original computer clock
     # by a random skew and offset
-    N = 10;
+    N = 15;
 
     nodes = [];
     count = 0;
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     nodes = np.asarray(nodes);
 
     # Generate a directed graph with 10 nodes
-    DG=nx.gnc_graph(N);
+    DG=nx.fast_gnp_random_graph(N, 0.6, directed=True);
     nx.draw(DG);
 
     # Assign weights to edges
