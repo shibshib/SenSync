@@ -14,24 +14,24 @@
 
 using namespace std::chrono;
 bool finished = false;
-//LPWSTR COM9 = L"COM9";
+LPWSTR COM9 = L"\\\\.\\COM9";
 //LPWSTR COM6 = L"COM6";
-LPWSTR COM13 = L"\\\\.\\COM13";
+//LPWSTR COM13 = L"\\\\.\\COM13";
 LPWSTR COM12 = L"\\\\.\\COM12";
 
-//std::string COM9String = "COM9";
+std::string COM9String = "COM9";
 //std::string COM6String = "COM6";
-std::string COM13String = "COM13";
+//std::string COM13String = "COM13";
 std::string COM12String = "COM12";
 
 std::string crystal_speed = "4MHz";
 std::string dco_speed = "2MHz";
-std::string dataPath = "C:\\Users\\Ala\\Documents\\GitHub\\SenSync\\Sync\\MMS\\Data\\Longitudinal";
+std::string dataPath = "C:\\Users\\Ala\\Documents\\GitHub\\SenSync\\Sync\\Sandbox\\Data\\";
 
 void separateFileOutput(std::string portName) {
 	std::ifstream inputFile(dataPath + "raw_output_" + portName + ".csv");
 	std::ofstream cfile, dfile;
-	std::string filenum = "2";
+	std::string filenum = "1";
 
 	cfile.open(dataPath + "Crystal_accel_" + portName + "_" + crystal_speed + "_" + filenum + ".csv", std::fstream::in | std::fstream::out | std::fstream::app);
 	dfile.open(dataPath + "DCO_accel_" + portName + "_" + dco_speed + "_" + filenum + ".csv", std::fstream::in | std::fstream::out | std::fstream::app);
@@ -68,8 +68,9 @@ BOOL WINAPI ConsoleHandler(DWORD CEvent) {
 		case CTRL_CLOSE_EVENT:
 			// Write contents of raw_output to crystal and DCO files
 		//	separateFileOutput(COM6String);
-		//	separateFileOutput(COM9String);
-			separateFileOutput(COM13String);
+			separateFileOutput(COM9String);
+			separateFileOutput(COM12String);
+		//	separateFileOutput(COM13String);
 			break;
 		default:
 			return FALSE;
@@ -136,14 +137,14 @@ int main() {
 	}
 
 //	std::thread COM6_thread(collectData, COM6);
-//	std::thread COM9_thread(collectData, COM9);
-	std::thread COM13_thread(collectData, COM13, COM13String);
+	std::thread COM9_thread(collectData, COM9, COM9String);
+//	std::thread COM13_thread(collectData, COM13, COM13String);
 	std::thread COM12_thread(collectData, COM12, COM12String);
 
 	// synchronize threads:
-//	COM9_thread.join();                // pauses until first finishes
+	COM9_thread.join();                // pauses until first finishes
 //	COM6_thread.join();               // pauses until second finishes
-	COM13_thread.join();
+//	COM13_thread.join();
 	COM12_thread.join();
 
 	return 0;

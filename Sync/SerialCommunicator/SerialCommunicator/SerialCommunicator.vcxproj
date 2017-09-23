@@ -149,7 +149,7 @@
     <ClInclude Include="SerialComm.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MSP430AccelerometerSerialListener.cpp" />
+    <ClCompile Include="MSP430ClocklessListener.cpp" />
     <ClCompile Include="SerialComm.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
