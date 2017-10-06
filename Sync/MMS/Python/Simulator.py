@@ -55,6 +55,7 @@ def sync(DG, node_index, nodes, node, ref_node):
     return v_i, u_i
 
 def weigh_edges(DG, nodes, start_time):
+    print(nx.number_of_edges(DG))
     edges = DG.edges();
     curtime = lambda: int(round(time.time() * 1000));
     # First, remove all edges
@@ -91,8 +92,8 @@ if __name__ == '__main__':
     nx.draw(DG);
 
     # Assign weights to edges
-    DG = weigh_edges(DG, nodes, start_time());
-
+#    DG = weigh_edges(DG, nodes, start_time());
+    print(nx.number_of_edges(DG))
 #    vi, ui = sync(DG, 1, nodes, nodes[0], nodes[1]);
 #    print(vi)
 #    print(ui)
